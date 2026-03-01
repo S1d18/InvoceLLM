@@ -1,0 +1,45 @@
+# Python
+venv/
+.venv/
+__pycache__/
+*.pyc
+*.pyo
+*.egg-info/
+
+# IDE
+.idea/
+.vscode/
+*.swp
+
+# Dev artifacts
+debug_*
+results_*
+*.png
+
+# Data (local)
+sorted_test/
+data/
+
+# Test PDFs with PII
+pdf_test/
+tests/img/
+tests/sorted/
+
+# Database
+*.db
+
+# Logs
+logs/
+*.log
+
+# Local config
+config.local.yaml
+.env
+
+# Claude Code
+.claude/
+
+# OS
+nul
+Thumbs.db
+.DS_Store

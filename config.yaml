@@ -1,0 +1,99 @@
+# Invoice LLM Configuration
+
+# Режимы работы
+scheduler:
+  night_start: "23:00"
+  night_end: "06:00"
+  timezone: "Europe/Moscow"
+  wake_on_lan: true
+
+  # Автоматический batch в начале ночного режима
+  auto_batch:
+    enabled: false
+    source_dirs:
+      - "M:/incoming"
+    output_dir: "M:/sorted"
+    on_complete: "notify"  # notify | shutdown | none
+
+# LLM серверы
+servers:
+  - name: "Colab Ollama"
+    url: "https://performances-cheap-supplements-accomplished.trycloudflare.com"
+    priority: 1
+
+  - name: "Main PC"
+    host: "192.168.50.20"
+    ports: [8080, 8081, 8082]
+    mac: "AA:BB:CC:DD:EE:F1"
+    ssh: "user@192.168.50.20"
+    priority: 2
+
+  - name: "PC2"
+    host: "192.168.50.3"
+    ports: [8080, 8081, 8082]
+    mac: "AA:BB:CC:DD:EE:F2"
+    priority: 3
+
+  - name: "PC3"
+    host: "192.168.50.15"
+    ports: [8080, 8081, 8082]
+    mac: "AA:BB:CC:DD:EE:F3"
+    priority: 4
+
+# LLM параметры
+llm:
+  temperature: 0.0
+  top_p: 0.1
+  max_tokens: 200
+  timeout: 30
+  max_text_length: 3000
+  workers_per_server: 1
+
+# Кэш шаблонов
+cache:
+  db_path: "data/templates/fingerprints.db"
+  hit_threshold: 0.85  # Использовать кэш если confidence >= этого значения
+  learn_threshold: 0.85
+  max_age_days: 365
+
+# Валидация
+validation:
+  check_vat: true
+  check_iban: true
+  check_year_in_text: true
+  check_company_similarity: true
+  min_company_similarity: 0.5
+
+# PDF извлечение
+pdf:
+  max_pages: 5
+  timeout: 30
+
+# Mega-batch обработка
+mega_batch:
+  output_suffix: "-sort"
+  min_confidence: 0.7
+  cache_hit_threshold: 0.95
+  llm_timeout: 60
+  progress_db: "data/progress/progress.db"
+  max_errors_before_pause: 50
+  health_check_interval: 30
+  move_files: true
+
+# Логирование
+logging:
+  level: INFO
+  file: "logs/invoice_llm.log"
+
+# Уведомления (опционально)
+notifications:
+  telegram:
+    enabled: false
+    bot_token: "YOUR_BOT_TOKEN"
+    chat_id: "YOUR_CHAT_ID"
+  email:
+    enabled: false
+    smtp_server: "smtp.example.com"
+    smtp_port: 587
+    from_addr: "invoice-llm@example.com"
+    to_addr: "admin@example.com"
